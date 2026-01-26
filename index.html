@@ -1,0 +1,299 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reza Tech Games</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.css" rel="stylesheet">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-glow: #00d4ff;
+            --secondary-glow: #ff00ff;
+            --dark-bg: #0a0a0a;
+            --card-glow: rgba(0, 212, 255, 0.3);
+        }
+        body {
+            background: linear-gradient(135deg, var(--dark-bg) 0%, #1a1a2e 50%, #16213e 100%);
+            font-family: 'Rajdhani', sans-serif;
+            color: #ffffff;
+            overflow-x: hidden;
+        }
+        .orbitron { font-family: 'Orbitron', monospace; }
+        .navbar {
+            background: rgba(10, 10, 10, 0.95) !important;
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        .navbar-brand {
+            font-family: 'Orbitron', monospace;
+            font-weight: 900;
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            font-size: 1.8rem;
+        }
+        .hero-section {
+            min-height: 100vh;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1000 1000"><defs><radialGradient id="a" cx="50%" cy="50%"><stop offset="0%" stop-color="%2300d4ff" stop-opacity="0.1"/><stop offset="100%" stop-color="%23ff00ff" stop-opacity="0.05"/></radialGradient></defs><rect width="100%" height="100%" fill="url(%23a)"/></svg>') center/cover;
+            display: flex;
+            align-items: center;
+            position: relative;
+        }
+        .hero-content h1 {
+            font-size: clamp(3rem, 8vw, 6rem);
+            font-weight: 900;
+            background: linear-gradient(45deg, #ffffff, var(--primary-glow));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 0 0 30px rgba(0, 212, 255, 0.5);
+        }
+        .feature-card {
+            background: rgba(20, 20, 46, 0.8);
+            border: 1px solid rgba(0, 212, 255, 0.3);
+            backdrop-filter: blur(10px);
+            transition: all 0.4s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 212, 255, 0.2), transparent);
+            transition: left 0.6s;
+        }
+        .feature-card:hover::before { left: 100%; }
+        .feature-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 25px 50px rgba(0, 212, 255, 0.3);
+            border-color: var(--primary-glow);
+        }
+        .tech-stack .badge {
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-weight: 600;
+        }
+        .portfolio-item {
+            position: relative;
+            height: 300px;
+            overflow: hidden;
+            border-radius: 15px;
+        }
+        .portfolio-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.6s ease;
+        }
+        .portfolio-item:hover img { transform: scale(1.1); }
+        .contact-form {
+            background: rgba(20, 20, 46, 0.9);
+            border-radius: 20px;
+            border: 1px solid rgba(0, 212, 255, 0.3);
+        }
+        .btn-glow {
+            background: linear-gradient(45deg, var(--primary-glow), var(--secondary-glow));
+            border: none;
+            padding: 12px 40px;
+            font-weight: 700;
+            border-radius: 50px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 30px rgba(0, 212, 255, 0.4);
+        }
+        .btn-glow:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 20px 40px rgba(0, 212, 255, 0.6);
+        }
+        .floating-particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+        .particle {
+            position: absolute;
+            width: 4px;
+            height: 4px;
+            background: var(--primary-glow);
+            border-radius: 50%;
+            animation: float 20s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(-100vh) rotate(360deg); opacity: 0; }
+        }
+        @media (max-width: 768px) {
+            .hero-content { text-align: center; padding: 2rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Floating Particles -->
+    <div class="floating-particles" id="particles"></div>
+
+    <!-- Navigation -->
+    <nav class="navbar navbar-expand-lg navbar-dark fixed-top">
+        <div class="container">
+            <a class="navbar-brand orbitron" href="#home">Reza Tech Games</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#portfolio">Portfolio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="#contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-section">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-lg-6">
+                    <div class="hero-content">
+                        <h1 class="orbitron display-1 mb-4">Reza Tech Games</h1>
+                        <p class="lead mb-5">Building games, indie game developer.</p>
+                        <a href="#portfolio" class="btn btn-outline-light btn-lg mb-3">View Portfolio</a>
+                    </div>
+                </div>
+                <div class="col-lg-6 text-center">
+                    <div class="portfolio-item">
+                        <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?w=800&h=600&fit=crop" alt="Game Development" class="rounded shadow-lg">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Portfolio -->
+    <section id="portfolio" class="py-5">
+        <div class="container">
+            <div class="row text-center mb-5">
+                <div class="col-lg-8 mx-auto">
+                    <h2 class="orbitron display-4 mb-4">Featured Projects</h2>
+                    <p class="lead">Still in development</p>
+                </div>
+            </div>
+            <!--<div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="portfolio-item rounded-4 shadow-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&h=600&fit=crop" alt="FPS Game">
+                        <div class="position-absolute bottom-0 start-0 end-0 p-4 bg-dark bg-opacity-75">
+                            <h4>FPS Vanguard</h4>
+                            <p>Next-gen multiplayer FPS</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="portfolio-item rounded-4 shadow-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1570549717069-33bed2eb6f96?w=800&h=600&fit=crop" alt="RPG Game">
+                        <div class="position-absolute bottom-0 start-0 end-0 p-4 bg-dark bg-opacity-75">
+                            <h4>Eternal Realms</h4>
+                            <p>Open-world RPG</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="portfolio-item rounded-4 shadow-lg overflow-hidden">
+                        <img src="https://images.unsplash.com/photo-1611606061945-3d9c9ab07d42?w=800&h=600&fit=crop" alt="Mobile Game">
+                        <div class="position-absolute bottom-0 start-0 end-0 p-4 bg-dark bg-opacity-75">
+                            <h4>Battle Mobile</h4>
+                            <p>Mobile battle royale</p>
+                        </div>
+                    </div>
+                </div>
+            </div>-->
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-5">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-lg-8 text-center mb-5">
+                    <h2 class="orbitron display-4 mb-4">Want to share idea's or collaborate?</h2>
+                    <p class="lead mb-4">Let's discuss it.</p>
+                </div>
+                <div class="col-lg-8 text-center mb-5">
+                    <a class="btn btn-outline-primary" href="#" 
+                            onclick="window.open('mailto:Rezgaritech@gmail.com?subject=Inquiry&body=Hello!', '_blank'); return false;">
+                            <i class="bi bi-envelope"></i> Contact Us
+                    </a>
+                    <br><br><p>Rezgaritech@gmail.com      
+                </div>
+            </div>
+            <div class="row mt-5 pt-5 border-top border-secondary">
+                <div class="col-md-6">
+                    <h5 class="orbitron">Reza Tech Games</h5>
+                    <p>Almere, Netherlands</p>
+                    <p>&copy; 2026 Rezgari Tech. All rights reserved.</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <div class="social-links">
+                        <a href="#" class="text-white me-4 fs-3"><i class="bi bi-discord"></i></a>
+                        <a href="#" class="text-white me-4 fs-3"><i class="bi bi-linkedin"></i></a>
+                        <a href="https://github.com/rezatechgames" target="_blank" rel="noopener noreferrer" class="text-white fs-3"><i class="bi bi-github"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <script>
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                }
+            });
+        });
+
+        // Create floating particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles');
+            for (let i = 0; i < 50; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'particle';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 20 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 15) + 's';
+                particlesContainer.appendChild(particle);
+            }
+        }
+        createParticles();
+
+        // Navbar background on scroll
+        window.addEventListener('scroll', () => {
+            const navbar = document.querySelector('.navbar');
+            if (window.scrollY > 100) {
+                navbar.style.background = 'rgba(10, 10, 10, 0.98)';
+            } else {
+                navbar.style.background = 'rgba(10, 10, 10, 0.95)';
+            }
+        });
+    </script>
+</body>
+</html>
